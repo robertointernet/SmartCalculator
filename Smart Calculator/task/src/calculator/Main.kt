@@ -1,5 +1,6 @@
 package calculator
 
+import java.math.BigInteger
 import java.util.regex.Pattern
 
 
@@ -56,7 +57,7 @@ fun main() {
 
 class Main {
 
-    private val vars = mutableMapOf<String, Int>()
+    private val vars = mutableMapOf<String, BigInteger>()
 
 
     fun assignValsToVars(input : String) : String {
@@ -103,7 +104,7 @@ class Main {
                 println("Unknown variable")
             }
         } else {
-            vars.put(l[0], l[1].toInt())
+            vars.put(l[0], l[1].toBigInteger())
         }
 
     }
@@ -113,7 +114,7 @@ class Main {
         return valid.matcher(input.trim()).matches()
     }
 
-    fun query(input : String) : Int? {
+    fun query(input : String) : BigInteger? {
         return vars[input]
     }
 
@@ -177,7 +178,7 @@ class Main {
         return left == right
     }
 
-    fun getVar(key : String) : Int? {
+    fun getVar(key : String) : BigInteger? {
         return vars[key]
     }
 }

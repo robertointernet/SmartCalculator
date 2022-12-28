@@ -2,7 +2,7 @@ package calculator
 
 import junit.framework.TestCase.*
 import org.junit.Test
-import java.util.regex.Pattern
+import java.math.BigInteger
 
 
 class MainTest {
@@ -18,17 +18,10 @@ class MainTest {
     @Test
     fun testValidExpression() {
 
+        var input = "abc"
+        assertFalse(main.validExpression(input))
 
-        println(Pattern.compile("(\\*\\*)|(\\\\)").matcher("2 \\ 2").find())
-
-        assertFalse(main.validExpression("2 ************ 2"))
-        assertFalse(main.validExpression("2 // 2"))
-
-        assertFalse(main.validExpression("8 * (2 + 3"))
-
-        assertTrue(main.validExpression("a * 4 / b - (3 - 1)"))
-
-        var input = "123+"
+        input = "123+"
         assertFalse(main.validExpression(input))
 
         input = "+15"
@@ -48,10 +41,6 @@ class MainTest {
 
         input = "a -- b - c + 3 --- a ++ 1"
         assertTrue(main.validExpression(input))
-
-        assertTrue(main.validExpression("91 / 13"))
-
-
 
 
     }
@@ -82,21 +71,24 @@ class MainTest {
     @Test
     fun assign1() {
         main.assign("n = 5")
-        assertEquals(5, main.getVar("n"))
+        assertEquals(BigInteger("5"), main.getVar("n"))
 
         main.assign("a      = 7")
-        assertEquals(7, main.getVar("a"))
+        assertEquals(BigInteger("7"), main.getVar("a"))
     }
 
     @Test
     fun assign2() {
+
+        val reg2 = ".*(=\\s*[a-zA-Z]+)$".toRegex()
+        println("c=  a".matches(reg2))
 
         main.assign("n = 5")
         main.assign("m=2")
         main.assign("a    =  7")
         assertTrue(main.validAssignment("c=  a"))
         main.assign("c=  a")
-        assertEquals(7, main.getVar("c"))
+        assertEquals(BigInteger("7"), main.getVar("c"))
     }
 
 }

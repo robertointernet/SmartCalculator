@@ -1,11 +1,12 @@
 package calculator
 
+import java.math.BigInteger
 import java.util.*
 
 
 class Eval {
 
-    private val vals = ArrayDeque<Int>()
+    private val vals = ArrayDeque<BigInteger>()
     private val ops = ArrayDeque<Char>()
 
     fun normalizeExpression(input : String) : String {
@@ -45,7 +46,7 @@ class Eval {
     }
 
 
-    fun compute(input: String): Int {
+    fun compute(input: String): BigInteger {
         var prevIsDigit = false
 
         val tmp = normalizeExpression(input)
@@ -61,10 +62,10 @@ class Eval {
                     // append the digit to the previous one
                     val num = vals.pop()
                     val tmp = num.toString() + ch
-                    vals.push(tmp.toInt())
+                    vals.push(tmp.toBigInteger())
 
                 } else {
-                    vals.push(ch.digitToInt())
+                    vals.push(BigInteger(ch.toString()))
                 }
                 prevIsDigit = true
             } else if (ch == '(') {
@@ -113,19 +114,19 @@ class Eval {
     // A utility method to apply an
     // operator 'op' on operands 'a'
     // and 'b'. Return the result.
-    private fun applyOp(op: Char, b: Int, a: Int): Int {
+    private fun applyOp(op: Char, b: BigInteger, a: BigInteger): BigInteger {
         when (op) {
             '+' -> return a + b
             '-' -> return a - b
             '*' -> return a * b
             '/' -> {
-                if (b == 0) throw UnsupportedOperationException(
+                if (b == BigInteger("0")) throw UnsupportedOperationException(
                     "Cannot divide by zero"
                 )
                 return a / b
             }
         }
-        return 0
+        return BigInteger("0")
     }
 
     // Returns true if 'op2' has higher
